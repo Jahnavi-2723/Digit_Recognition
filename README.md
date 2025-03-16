@@ -1,1 +1,1 @@
-"# Handwritten_Digit_Recognization" 
+"Digit_Recognization" 
