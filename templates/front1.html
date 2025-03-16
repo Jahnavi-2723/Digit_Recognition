@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handwritten Digit Recognition</title>
+
+    <!-- Google Font -->
+    
+    <style>
+        /* General Styling */
+        body {
+            font-family: "Lucida Console", "Courier New", monospace;
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: white;
+        }
+
+        /* Container for Form */
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        }
+
+        h1 {
+            font-weight: 700;
+            text-shadow: 2px 2px 10px cyan;
+        }
+
+        /* File Upload Styling */
+        input[type="file"] {
+            padding: 10px;
+            margin-top: 20px;
+            border: 2px solid cyan;
+            background: rgba(0, 255, 255, 0.2);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        input[type="file"]:hover {
+            background: rgba(0, 255, 255, 0.5);
+        }
+
+        /* Button Styling */
+        .btn-custom {
+            background: #00ffff;
+            color: #000;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+            transition: 0.3s;
+            box-shadow: 0 0 10px cyan;
+        }
+
+        .btn-custom:hover {
+            background: #ff00ff;
+            color: white;
+            box-shadow: 0 0 15px magenta;
+        }
+
+        /* Image Preview */
+        #preview {
+            width: 200px;
+            margin: 10px auto;
+            display: none;
+            border: 2px solid cyan;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 0 0 10px cyan;
+        }
+
+        /* Prediction Result Box */
+        .result-card {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Handwritten Digit Recognition</h1>
+        
+        <form id="uploadForm">
+            <input type="file" id="imageInput" accept="image/*" required>
+            <br><br>
+            <button type="submit" class="btn-custom">Upload & Predict</button>
+        </form>
+
+        <img id="preview" src="" alt="Uploaded Image">
+        <div class="result-card">
+            <h2 id="result">Prediction will appear here</h2>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('preview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const fileInput = document.getElementById('imageInput').files[0];
+            if (!fileInput) return alert("Please select an image!");
+
+            const formData = new FormData();
+            formData.append("image", fileInput);
+
+            fetch("/predict", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = "Predicted Digit: " + data.prediction;
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+
+</body>
+</html>
