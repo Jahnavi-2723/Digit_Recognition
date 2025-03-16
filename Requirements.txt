@@ -1,0 +1,6 @@
+#In this project, I have used following **TECHNOLOGY** and these are their versions.
+-Python == 3.10.0
+-flask == 3.1.0
+-numpy == 1.26.4
+-tensorflow == 2.18.0
+-Werkzeug == 3.1.3
