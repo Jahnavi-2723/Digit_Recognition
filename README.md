@@ -20,6 +20,10 @@ I am using a predefined model named **MNIST dataset**.
   - Open the browser and go to `"https://......"`, where you can insert your image and predict.
 - Upload a **handwritten digit image** (JPEG/JPG format), and the model will predict the digit.
 
+## Screenshot
+![image](https://github.com/user-attachments/assets/cd857f14-94d5-430d-8a99-153197a70a56)
+
+
 ## Technology Stack
 - **Python**
 - **TensorFlow** for deep learning
